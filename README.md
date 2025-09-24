@@ -1,11 +1,29 @@
 # trello-json-to-csv
 Convert Trello JSON export into a simple CSV file
 
-Current implementation assumes that the JSON file is named `data.json`.
+
+## Quick Start
+
+A VS Code Dev container configuration is provided for local development.
+
 
 ```bash
-$ python3 json_to_csv.py
+# The following two commands are not needed when running in a
+# VS Code Dev container
+$ python -m venv --prompt "trello-json-to-csv$(cat .python-version)" .venv
+$ source .venv/bin/activate
+
+# Install the dependencies
+$ pip install -e .
 ```
+
+## Sample Usage
+
+```
+$ trello-json-to-csv <JSON_FILE>
+```
+
+where \<JSON_FILE> is the Trello JSON file to convert.
 
 ## Trello "cards" array entries
 

@@ -1,3 +1,4 @@
+import argparse
 import json
 
 def extract_arrays_from_json(file_path):
@@ -57,11 +58,23 @@ def print_specific_fields(lists_data, cards_data):
     else:
         print("No 'cards' data found.")
 
-# --- Example usage ---
-if __name__ == "__main__":
-    json_file_path = 'data.json'
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="A Trello JSON to CSV converter"
+    )
+    parser.add_argument(
+        "json_file", type=str, help="The JSON file to convert"
+    )
+    args = parser.parse_args()
+
+    json_file_path = args.json_file
 
     lists_data, cards_data = extract_arrays_from_json(json_file_path)
 
     if lists_data is not None and cards_data is not None:
         print_specific_fields(lists_data, cards_data)
+
+# --- Example usage ---
+if __name__ == "__main__":
+    main()

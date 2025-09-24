@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trello-json-to-csv"
+version = "0.1.0"
+dependencies = []
+requires-python = ">=3.12"
+
+[project.scripts]
+trello-json-to-csv = "trello_json_to_csv.__main__:main"
