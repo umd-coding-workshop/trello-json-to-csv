@@ -208,3 +208,5 @@ __marimo__/
 
 # Ignore all JSON
 *.json
+# Except for the VS Code Dev Container JSON
+!.devcontainer/*
