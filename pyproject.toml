@@ -10,3 +10,8 @@ requires-python = ">=3.12"
 
 [project.scripts]
 trello-json-to-csv = "trello_json_to_csv.__main__:main"
+
+[project.optional-dependencies]
+test = [
+  "pytest"
+]

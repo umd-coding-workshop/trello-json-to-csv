@@ -2,7 +2,7 @@
 Convert Trello JSON export into a simple CSV file
 
 
-## Quick Start
+## Develpment Quick Start
 
 A VS Code Dev container configuration is provided for local development.
 
@@ -15,6 +15,12 @@ $ source .venv/bin/activate
 
 # Install the dependencies
 $ pip install -e .
+```
+
+Running the tests:
+
+```bash
+$ pytest
 ```
 
 ## Sample Usage
