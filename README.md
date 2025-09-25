@@ -1,8 +1,9 @@
 # trello-json-to-csv
 Convert Trello JSON export into a simple CSV file
 
-
 ## Develpment Quick Start
+
+This application uses Python 3.12.
 
 A VS Code Dev container configuration is provided for local development.
 
