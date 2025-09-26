@@ -1,6 +1,9 @@
+#!/usr/bin/env python
+
 import argparse
 import csv
 import json
+
 
 def extract_arrays_from_json(file_path):
     """
@@ -33,6 +36,7 @@ def extract_arrays_from_json(file_path):
 
     return lists, cards
 
+
 def extract_data(lists_data, cards_data):
     """
     Iterates through the lists and cards data and prints specific fields.
@@ -41,35 +45,34 @@ def extract_data(lists_data, cards_data):
         lists_data (list): The array of list objects.
         cards_data (list): The array of card objects.
     """
-    status_lookup = {}
-    if lists_data:
-        print("Lists (id and name):")
-        for item in lists_data:
-            list_id = item.get('id')
-            list_name = item.get('name')
-            status_lookup[list_id] = list_name
-            print(f"  - ID: {list_id}, Name: {list_name}")
-    else:
-        print("No 'lists' data found.")
-
+    status_lookup = {item.get('id'): item.get('name') for item in lists_data}
+    filtered_cards = [c for c in cards_data if c['closed'] == False]
     rows = []
-    if cards_data:
-        print("\nCards (name and shortUrl):")
-        for item in [c for c in cards_data if c['closed'] == False]:
-            card_name = item.get('name') # 'name' from the previous step is now 'title'
-            card_url = item.get('url')
-            card_status = status_lookup[item.get('idList')]
-            labels = [i['name'] for i in item.get('labels')]
-            print(f"  - Name: {card_name}, URL: {card_url}, Status: {card_status}")
-            rows.append({'Title': card_name, 'Card URL': card_url, 'Status': card_status,
-                         'Labels': ",".join(labels)})
-    else:
-        print("No 'cards' data found.")
+
+    for item in filtered_cards:
+        parts = item['name'].split('*')
+        id = parts[1] if len(parts) > 1 else ""
+        rows.append({
+            'Title': parts[0],
+            'ID': id, 
+            'Card URL': item.get('url'),
+            'Status': status_lookup[item.get('idList')],
+            'Labels': ",".join(set([i['name'] for i in item.get('labels')]))
+            })
+
     return rows
 
+
 def write_to_csv(rows, filename):
+    """
+    Writes an array of Trello Card data to a CSV file.
+    
+    Args:
+        rows (list): The array of card data.
+        filename (string): The location to write the the output CSV.
+    """
     with open(filename, 'w+') as handle:
-        fieldnames = ['Title', 'Card URL', 'Status', 'Labels']
+        fieldnames = ['Title', 'ID', 'Card URL', 'Status', 'Labels']
         writer = csv.DictWriter(handle,
                                 fieldnames=fieldnames,
                                 extrasaction='ignore')
@@ -78,23 +81,25 @@ def write_to_csv(rows, filename):
             writer.writerow(row)
 
 
-
 def main():
+
     parser = argparse.ArgumentParser(
         description="A Trello JSON to CSV converter"
-    )
+        )
     parser.add_argument(
         "json_file", type=str, help="The JSON file to convert"
-    )
+        )
+    parser.add_argument(
+        "csv_file", type=str, help="The file for CSV output"
+        )
     args = parser.parse_args()
 
-    json_file_path = args.json_file
-
-    lists_data, cards_data = extract_arrays_from_json(json_file_path)
+    lists_data, cards_data = extract_arrays_from_json(args.json_file)
 
     if lists_data is not None and cards_data is not None:
         rows = extract_data(lists_data, cards_data)
-        write_to_csv(rows, "output.csv")
+        write_to_csv(rows, args.csv_file)
+
 
 # --- Example usage ---
 if __name__ == "__main__":
