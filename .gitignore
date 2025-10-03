@@ -210,3 +210,5 @@ __marimo__/
 *.json
 # Except for the VS Code Dev Container JSON
 !.devcontainer/*
+# Ignore all CSV
+*.csv
