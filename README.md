@@ -1,4 +1,5 @@
 # trello-json-to-csv
+
 Convert Trello JSON export into a simple CSV file
 
 ## Develpment Quick Start
@@ -27,10 +28,13 @@ $ pytest
 ## Sample Usage
 
 ```
-$ trello-json-to-csv <JSON_FILE>
+$ trello-json-to-csv <JSON_FILE> <CSV_OUTPUT_FILE>
 ```
 
-where \<JSON_FILE> is the Trello JSON file to convert.
+where:
+
+* \<JSON_FILE> is the Trello JSON file to convert.
+* \<CSV_OUTPUT_FILE> is the file to output the CSV to.
 
 ## Trello "cards" array entries
 
